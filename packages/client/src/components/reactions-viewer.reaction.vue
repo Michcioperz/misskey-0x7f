@@ -8,7 +8,10 @@
 	@click="toggleReaction()"
 >
 	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis"/>
-	<span class="count">{{ count }}</span>
+	<span v-if="users === undefined" class="count">{{ count }}</span>
+	<span v-if="users !== undefined">
+		<MkAvatar v-for="u in users" class="user" :style="{ height: '2em', width: '2em' }" :key="u.id" :user="u" />
+	</span>
 </button>
 </template>
 
@@ -41,6 +44,10 @@ export default defineComponent({
 		note: {
 			type: Object,
 			required: true,
+		},
+		users: {
+			type: Array,
+			required: false,
 		},
 	},
 
