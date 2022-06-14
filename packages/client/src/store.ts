@@ -68,16 +68,8 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'deviceAccount',
 		default: [
 			'notifications',
-			'favorites',
-			'drive',
-			'followRequests',
-			'-',
-			'featured',
-			'explore',
-			'announcements',
 			'search',
-			'-',
-			'ui',
+			'lists',
 		]
 	},
 	visibility: {
@@ -100,7 +92,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	tl: {
 		where: 'deviceAccount',
 		default: {
-			src: 'home' as 'home' | 'local' | 'social' | 'global',
+			src: 'social' as 'home' | 'local' | 'social' | 'global',
 			arg: null
 		}
 	},
@@ -175,7 +167,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	darkMode: {
 		where: 'device',
-		default: false
+		default: true
 	},
 	instanceTicker: {
 		where: 'device',
@@ -256,7 +248,7 @@ type Plugin = {
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
 import lightTheme from '@/themes/l-light.json5';
-import darkTheme from '@/themes/d-dark.json5';
+import darkTheme from '@/themes/d-astro.json5';
 
 export class ColdDeviceStorage {
 	public static default = {
@@ -266,7 +258,7 @@ export class ColdDeviceStorage {
 		plugins: [] as Plugin[],
 		mediaVolume: 0.5,
 		sound_masterVolume: 0.3,
-		sound_note: { type: 'syuilo/down', volume: 1 },
+		sound_note: { type: null, volume: 1 },
 		sound_noteMy: { type: 'syuilo/up', volume: 1 },
 		sound_notification: { type: 'syuilo/pope2', volume: 1 },
 		sound_chat: { type: 'syuilo/pope1', volume: 1 },
