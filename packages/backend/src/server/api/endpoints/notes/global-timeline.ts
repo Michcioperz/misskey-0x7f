@@ -75,7 +75,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
 		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
 
-	generateRepliesQuery(query, user);
+	generateRepliesQuery(query, user, null);
 	if (user) generateMutedUserQuery(query, user);
 	if (user) generateMutedNoteQuery(query, user);
 	if (user) generateBlockedUserQuery(query, user);

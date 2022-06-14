@@ -89,7 +89,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		.setParameters(followingQuery.getParameters());
 
 	generateChannelQuery(query, user);
-	generateRepliesQuery(query, user);
+	generateRepliesQuery(query, user, followingQuery);
 	generateVisibilityQuery(query, user);
 	generateMutedUserQuery(query, user);
 	generateMutedInstanceQuery(query, user);

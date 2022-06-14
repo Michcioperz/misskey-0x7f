@@ -1,7 +1,7 @@
 import { User } from '@/models/entities/user.js';
 import { Brackets, SelectQueryBuilder } from 'typeorm';
 
-export function generateRepliesQuery(q: SelectQueryBuilder<any>, me?: Pick<User, 'id' | 'showTimelineReplies'> | null) {
+export function generateRepliesQuery(q: SelectQueryBuilder<any>, me?: Pick<User, 'id' | 'showTimelineReplies'> | null, followingQuery: SelectQueryBuilder<any> | null) {
 	if (me == null) {
 		q.andWhere(new Brackets(qb => { qb
 			.where(`note.replyId IS NULL`) // 返信ではない
@@ -22,6 +22,11 @@ export function generateRepliesQuery(q: SelectQueryBuilder<any>, me?: Pick<User,
 				.where(`note.replyId IS NOT NULL`)
 				.andWhere('note.replyUserId = note.userId');
 			}));
+			if (followingQuery !== null) {
+				qb.orWhere(new Brackets(qb => { qb
+					.where(`note.userId IN (${ followingQuery.getQuery() })`, { meId: user.id })
+				}));
+			}
 		}));
 	}
 }

@@ -37,11 +37,11 @@ export default class extends Channel {
 			(note.channelId != null && this.followingChannels.has(note.channelId))
 		)) return;
 
-		if (['followers', 'specified'].includes(note.visibility)) {
-			note = await Notes.pack(note.id, this.user!, {
-				detail: true,
-			});
+		note = await Notes.pack(note.id, this.user!, {
+			detail: true,
+		});
 
+		if (['followers', 'specified'].includes(note.visibility)) {
 			if (note.isHidden) {
 				return;
 			}
@@ -63,11 +63,8 @@ export default class extends Channel {
 		// Ignore notes from instances the user has muted
 		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? []))) return;
 
-		// 関係ない返信は除外
-		if (note.reply && !this.user!.showTimelineReplies) {
-			const reply = note.reply;
-			// 「チャンネル接続主への返信」でもなければ、「チャンネル接続主が行った返信」でもなければ、「投稿者の投稿者自身への返信」でもない場合
-			if (reply.userId !== this.user!.id && note.userId !== this.user!.id && reply.userId !== note.userId) return;
+		if (note.reply && note.mentions && !this.user!.showTimelineReplies) {
+			if (!note.mentions.includes(this.user!.id) && !note.mentions.some((user: string) => this.following.has(user))) return;
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する

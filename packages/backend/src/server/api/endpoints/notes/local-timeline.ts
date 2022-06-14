@@ -81,7 +81,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
 
 	generateChannelQuery(query, user);
-	generateRepliesQuery(query, user);
+	generateRepliesQuery(query, user, null);
 	generateVisibilityQuery(query, user);
 	if (user) generateMutedUserQuery(query, user);
 	if (user) generateMutedNoteQuery(query, user);
