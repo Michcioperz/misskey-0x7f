@@ -24,7 +24,8 @@ export function generateRepliesQuery(q: SelectQueryBuilder<any>, me?: Pick<User,
 			}));
 			if (followingQuery !== null) {
 				qb.orWhere(new Brackets(qb => { qb
-					.where(`note.userId IN (${ followingQuery.getQuery() })`)
+					.where(`note.replyId IS NOT NULL`)
+					.where(`note.replyUserId IN (${ followingQuery.getQuery() })`)
 				}))
 				.setParameters(followingQuery.getParameters());
 			}
